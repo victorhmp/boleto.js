@@ -1,6 +1,6 @@
 const window = require('svgdom');
 
-const { document } = window;
+const document = window.document;
 const { SVG, registerWindow } = require('@svgdotjs/svg.js');
 
 // register window and document
