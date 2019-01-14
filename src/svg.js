@@ -30,7 +30,7 @@ class svg {
    * @param {String} selector The selector to the object where the SVG must be
    * appended
    */
-  render(selector) {
+  render() {
     // create canvas
     const canvas = SVG(document.documentElement);
     const imageGroup = canvas.group();
@@ -49,13 +49,7 @@ class svg {
       height: '100%',
       viewBox: `0 0 ${this.viewBoxWidth()} 100`,
     });
-
-    if (selector === undefined) {
-      return canvas.svg();
-    }
-
-    document.querySelector(selector).appendChild(svg);
-    return null;
+    return canvas.svg();
   }
 
   /**
