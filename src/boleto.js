@@ -1,4 +1,4 @@
-const SVG = require('./svg');
+const svg = require('./svg');
 const ITF = require('./itf');
 const { modulo11 } = require('./helpers');
 
@@ -33,7 +33,7 @@ class Boleto {
     const barcodeDigits = this.barcode().split('');
     const checksum = barcodeDigits.splice(4, 1);
 
-    return (modulo11(barcodeDigits).toString() === checksum.toString());
+    return modulo11(barcodeDigits).toString() === checksum.toString();
   }
 
   /**
@@ -88,29 +88,52 @@ class Boleto {
    */
   bank() {
     switch (this.barcode().substr(0, 3)) {
-      case '001': return 'Banco do Brasil';
-      case '007': return 'BNDES';
-      case '033': return 'Santander';
-      case '069': return 'Crefisa';
-      case '077': return 'Banco Inter';
-      case '102': return 'XP Investimentos';
-      case '104': return 'Caixa Econômica Federal';
-      case '140': return 'Easynvest';
-      case '197': return 'Stone';
-      case '208': return 'BTG Pactual';
-      case '212': return 'Banco Original';
-      case '237': return 'Bradesco';
-      case '260': return 'Nu Pagamentos';
-      case '341': return 'Itaú';
-      case '389': return 'Banco Mercantil do Brasil';
-      case '422': return 'Banco Safra';
-      case '505': return 'Credit Suisse';
-      case '633': return 'Banco Rendimento';
-      case '652': return 'Itaú Unibanco';
-      case '735': return 'Banco Neon';
-      case '739': return 'Banco Cetelem';
-      case '745': return 'Citibank';
-      default: return 'Unknown';
+      case '001':
+        return 'Banco do Brasil';
+      case '007':
+        return 'BNDES';
+      case '033':
+        return 'Santander';
+      case '069':
+        return 'Crefisa';
+      case '077':
+        return 'Banco Inter';
+      case '102':
+        return 'XP Investimentos';
+      case '104':
+        return 'Caixa Econômica Federal';
+      case '140':
+        return 'Easynvest';
+      case '197':
+        return 'Stone';
+      case '208':
+        return 'BTG Pactual';
+      case '212':
+        return 'Banco Original';
+      case '237':
+        return 'Bradesco';
+      case '260':
+        return 'Nu Pagamentos';
+      case '341':
+        return 'Itaú';
+      case '389':
+        return 'Banco Mercantil do Brasil';
+      case '422':
+        return 'Banco Safra';
+      case '505':
+        return 'Credit Suisse';
+      case '633':
+        return 'Banco Rendimento';
+      case '652':
+        return 'Itaú Unibanco';
+      case '735':
+        return 'Banco Neon';
+      case '739':
+        return 'Banco Cetelem';
+      case '745':
+        return 'Citibank';
+      default:
+        return 'Unknown';
     }
   }
 
@@ -124,8 +147,10 @@ class Boleto {
    */
   currency() {
     switch (this.barcode()[3]) {
-      case '9': return { code: 'BRL', symbol: 'R$', decimal: ',' };
-      default: return 'Unknown';
+      case '9':
+        return { code: 'BRL', symbol: 'R$', decimal: ',' };
+      default:
+        return 'Unknown';
     }
   }
 
@@ -182,16 +207,14 @@ class Boleto {
   }
 
   /**
-   * Renders the bank slip as a child of the provided selector
+   * Renders the bank slip
    *
-   * @param {String} selector The selector to the object where the SVG must be
-   * appended
    *
    * @see {@link SVG#render}
    */
-  toSVG(selector) {
+  toSVG() {
     const stripes = ITF.encode(this.barcode());
-    return new SVG(stripes).render(selector);
+    return new svg(stripes).render();
   }
 }
 
