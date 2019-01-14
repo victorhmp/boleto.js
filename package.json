@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/guilhermearaujo/boleto.js#readme",
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.0.10",
+    "svgdom": "0.0.18",
     "xmlserializer": "^0.6.0"
   },
   "devDependencies": {

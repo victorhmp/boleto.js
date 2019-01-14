@@ -1,6 +1,12 @@
-const xmlserializer = require('xmlserializer');
+const window = require('svgdom');
 
-class SVG {
+const { document } = window;
+const { SVG, registerWindow } = require('@svgdotjs/svg.js');
+
+// register window and document
+registerWindow(window, window.document);
+
+class svg {
   /**
    * Initializes the class
    *
@@ -25,28 +31,27 @@ class SVG {
    * appended
    */
   render(selector) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    // create canvas
+    const canvas = SVG(document.documentElement);
+    const imageGroup = canvas.group();
     let pos = 0;
     let width = 0;
 
     for (let i = 0; i < this.stripes.length; i += 1, pos += width) {
       width = this.stripeWidth * this.stripes[i];
+      const shape = canvas.rect(pos, 0, width, 100).fill(svg.color(i));
 
-      const shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      shape.setAttribute('width', width);
-      shape.setAttribute('height', 100);
-      shape.setAttribute('fill', SVG.color(i));
-      shape.setAttribute('x', pos);
-      shape.setAttribute('y', 0);
-      svg.appendChild(shape);
+      imageGroup.add(shape);
     }
 
-    svg.setAttribute('width', '100%');
-    svg.setAttribute('height', '100%');
-    svg.setAttribute('viewBox', `0 0 ${this.viewBoxWidth()} 100`);
+    canvas.attr({
+      width: '100%',
+      height: '100%',
+      viewBox: `0 0 ${this.viewBoxWidth()} 100`,
+    });
 
     if (selector === undefined) {
-      return xmlserializer.serializeToString(svg);
+      return canvas.svg();
     }
 
     document.querySelector(selector).appendChild(svg);
@@ -84,4 +89,4 @@ class SVG {
   }
 }
 
-module.exports = SVG;
+module.exports = svg;
